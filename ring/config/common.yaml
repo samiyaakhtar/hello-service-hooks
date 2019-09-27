@@ -1,0 +1,6 @@
+config:
+  serviceName: "hello-service-hooks"
+  majorVersion: "v1"
+  ringName: "master"
+  group: "AWESOME"
+  contact: samiya@containerjourney.com

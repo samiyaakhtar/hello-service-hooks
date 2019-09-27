@@ -1,2 +1,2 @@
 # hello-service-hooks
-Service hooks testing in AzDO
+Source repository for a test application for [Spektate](https://github.com/catalystcode/spk)
