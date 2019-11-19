@@ -47,3 +47,8 @@ steps:
     Dockerfile: '**/src/Dockerfile'
     tags: 'hello-service-hooks-$(Build.SourceBranchName)-$(Build.BuildId)'
   condition: ne(variables['Build.Reason'], 'PullRequest')
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)' 
+    artifactName: 'test'
