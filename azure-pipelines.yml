@@ -48,7 +48,14 @@ steps:
     tags: 'hello-service-hooks-$(Build.SourceBranchName)-$(Build.BuildId)'
   condition: ne(variables['Build.Reason'], 'PullRequest')
 
+- bash: |
+    # touch artifact-$(Build.BuildId).env
+    # vim artifact-$(Build.BuildId)
+    echo "testing testing" >> artifact-$(Build.BuildId).env
+    echo "##vso[task.setvariable variable=pwd]$(pwd)"
+  displayName: extract some information and place in an artifact
+
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)' 
-    artifactName: 'test'
+    path: $(pwd)
+    artifact: artifact-$(Build.BuildId).env
