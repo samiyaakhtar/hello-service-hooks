@@ -57,5 +57,5 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    path: $(pwd)
+    path: $(pwd)/artifact-$(Build.BuildId).env
     artifact: artifact-$(Build.BuildId).env
