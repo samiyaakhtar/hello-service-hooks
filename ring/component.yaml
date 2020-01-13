@@ -1,5 +1,5 @@
 name: hello-rings
-source: https://github.com/bnookala/hello-rings-helm
+source: https://github.com/samiyaakhtar/hello-rings-helm
 type: helm
 method: git
 path: ring-chart
