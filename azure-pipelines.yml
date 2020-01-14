@@ -6,6 +6,17 @@ trigger:
     include:
     - '*'
 
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - master
+  always: true
+
+variables:
+- group: Container Journey
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -38,6 +49,21 @@ steps:
 #     echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId"
 #     python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId 
 #   displayName: Update source pipeline details in CJ db
+
+
+- bash: |
+    curl $SCRIPT > script.sh
+    chmod +x ./script.sh
+    tag_name="hello-spektate-$(Build.SourceBranchName)-$(Build.BuildId)"
+    commitId=$(Build.SourceVersion)
+    commitId=$(echo "${commitId:0:7}")
+    echo "./script.sh $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId service $(Build.Repository.Name)"
+    ./script.sh $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId service $(Build.Repository.Name)
+  displayName: Update manifest pipeline details in CJ db
+  env:
+    SCRIPT: https://raw.githubusercontent.com/samiyaakhtar/spk/686-simply-pipelines/scripts/update_introspection.sh
+
+
 
 - task: Docker@2
   inputs:
